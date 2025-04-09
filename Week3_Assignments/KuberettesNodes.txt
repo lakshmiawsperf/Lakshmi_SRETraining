@@ -1,0 +1,37 @@
+gcloud auth login
+
+provide verification code
+
+gcloud container clusters get-credentials mykubecluster --zone us-central1-c --project rock-verbena-238702
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-nginx-pod
+  namespace: lakshmi
+  labels:
+    app: nginx
+    team: PerfTest
+    operations: sre
+spec:
+  containers:
+    - name: my-nginx-pod
+      image: nginx
+      ports:
+       - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-service
+  namespace: lakshmi
+spec:
+ selector:
+  app: nginx # Match the Pod Lable
+ ports:
+   - protocol: TCP
+     port: 80
+     targetPort: 80
+ type: LoadBalancer
