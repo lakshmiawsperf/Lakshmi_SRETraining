@@ -35,3 +35,29 @@ spec:
      port: 80
      targetPort: 80
  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+  labels:
+    app: nginx
+  namespace: lakshmi
+spec:
+ replicas: 3 # Ensure 3 pods are running at a time
+ selector:
+   matchLabels:
+      app: nginx # Match the Pod Lable
+ template:
+   metadata:
+     labels:
+       app: nginx
+   spec:
+     containers:
+       - name: nginx-container
+         image: nginx:latest
+         ports:
+           - containerPort: 80
+
+
